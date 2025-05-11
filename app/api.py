@@ -1,33 +1,44 @@
-import http.client
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath("\app"))) # Añade el directorio actual
 
-from flask import Flask
+from flask import Flask, request, jsonify
+from calc import Calculator
 
-from app import util
-from app.calc import Calculator
+app = Flask(__name__)
+calc = Calculator()
 
-CALCULATOR = Calculator()
-api_application = Flask(__name__)
-HEADERS = {"Content-Type": "text/plain", "Access-Control-Allow-Origin": "*"}
+@app.route('/add', methods=['POST'])
+def add():
+    data = request.get_json()
+    a = data['a']
+    b = data['b']
+    result = calc.add(a, b)
+    return jsonify({'result': result})
 
+@app.route('/subtract', methods=['POST'])
+def subtract():
+    data = request.get_json()
+    a = data['a']
+    b = data['b']
+    result = calc.substract(a, b)
+    return jsonify({'result': result})
 
-@api_application.route("/")
-def hello():
-    return "Hello from The Calculator!\n"
+@app.route('/multiply', methods=['POST'])
+def multiply():
+    data = request.get_json()
+    a = data['a']
+    b = data['b']
+    result = calc.multiply(a, b)
+    return jsonify({'result': result})
 
+@app.route('/divide', methods=['POST'])
+def divide():
+    data = request.get_json()
+    a = data['a']
+    b = data['b']
+    result = calc.divide(a, b)
+    return jsonify({'result': result})
 
-@api_application.route("/calc/add/<op_1>/<op_2>", methods=["GET"])
-def add(op_1, op_2):
-    try:
-        num_1, num_2 = util.convert_to_number(op_1), util.convert_to_number(op_2)
-        return ("{}".format(CALCULATOR.add(num_1, num_2)), http.client.OK, HEADERS)
-    except TypeError as e:
-        return (str(e), http.client.BAD_REQUEST, HEADERS)
-
-
-@api_application.route("/calc/substract/<op_1>/<op_2>", methods=["GET"])
-def substract(op_1, op_2):
-    try:
-        num_1, num_2 = util.convert_to_number(op_1), util.convert_to_number(op_2)
-        return ("{}".format(CALCULATOR.substract(num_1, num_2)), http.client.OK, HEADERS)
-    except TypeError as e:
-        return (str(e), http.client.BAD_REQUEST, HEADERS)
+if __name__ == '__main__':
+    app.run(debug=True)
