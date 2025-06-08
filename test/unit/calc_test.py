@@ -8,10 +8,6 @@ from app.calc import Calculator
 class TestCalculate(unittest.TestCase):
     def setUp(self):
         self.calc = Calculator()
-    def test_divide_by_zero_raises_type_error(self):
-        with self.assertRaises(TypeError) as context:
-            self.calc.divide(10, 0)
-        self.assertEqual(str(context.exception), "Division by zero is not possible")
 
     def test_add_method_returns_correct_result(self):
         self.assertEqual(4, self.calc.add(2, 2))
@@ -29,6 +25,11 @@ class TestCalculate(unittest.TestCase):
         self.assertEqual(1, self.calc.divide(2, 2))
         self.assertEqual(1.5, self.calc.divide(3, 2))
         self.assertRaises(TypeError, self.calc.divide, "2", 2)
+
+    def test_divide_method_fails_with_zero_division(self):
+        with self.assertRaises(TypeError) as context:
+            self.calc.divide(10, 0)
+        self.assertEqual(str(context.exception), "Division by zero is not possible")
   
     def test_add_method_fails_with_nan_parameter(self):
         self.assertRaises(TypeError, self.calc.add, "2", 2)
