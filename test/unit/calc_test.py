@@ -69,3 +69,7 @@ class TestCalculate(unittest.TestCase):
         
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()
+        self.assertRaises(TypeError, self.calc.divide, "2", "2")
+        self.assertRaises(TypeError, self.calc.multiply, "2", "2")
+        self.assertRaises(TypeError, self.calc.substract, "2", "2")
+        self.assertRaises(TypeError, self.calc.power, "2", "2")
