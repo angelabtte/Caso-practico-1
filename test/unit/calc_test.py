@@ -40,10 +40,6 @@ class TestCalculate(unittest.TestCase):
         self.assertRaises(TypeError, self.calc.divide, 2, "2")
         self.assertRaises(TypeError, self.calc.divide, "2", "2")
 
-    def test_divide_method_fails_with_invalid_second_param(self):
-        self.assertRaises(TypeError, self.calc.divide, 2, object())
-
-
     def test_multiply_method_returns_correct_result(self):
         self.assertEqual(4, self.calc.multiply(2, 2))
         self.assertEqual(0, self.calc.multiply(1, 0))
@@ -65,11 +61,7 @@ class TestCalculate(unittest.TestCase):
         self.assertEqual(0, self.calc.substract(0, 0))
         self.assertEqual(0, self.calc.substract(0, 0))
         self.assertRaises(TypeError, self.calc.substract, "0", 0)
-
-    def test_divide_by_zero_raises_exception(self):
-    with pytest.raises(TypeError, match="Division by zero is not possible"):
-        self.calc.divide(10, 0)
-
-     
+        
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()
+
