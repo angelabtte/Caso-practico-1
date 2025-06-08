@@ -4,6 +4,12 @@ import unittest
 from app.calc import Calculator
 
 
+import pytest
+import unittest
+
+from app.calc import Calculator
+
+
 @pytest.mark.unit
 class TestCalculate(unittest.TestCase):
     def setUp(self):
@@ -69,7 +75,3 @@ class TestCalculate(unittest.TestCase):
         
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()
-        self.assertRaises(TypeError, self.calc.divide, "2", "2")
-        self.assertRaises(TypeError, self.calc.multiply, "2", "2")
-        self.assertRaises(TypeError, self.calc.substract, "2", "2")
-        self.assertRaises(TypeError, self.calc.power, "2", "2")
