@@ -5,7 +5,7 @@ pipeline {
         stage('Get Code') {
             agent { label 'ci-agent1' }
             steps {
-                echo "📦 Clonando repositorio..."
+                echo " Clonando repositorio..."
                 bat 'whoami && hostname && echo %WORKSPACE%'
                 git 'https://github.com/angelabtte/Caso-practico-1'
                 stash name: 'source-code', includes: '**/*'
@@ -69,17 +69,17 @@ pipeline {
                             }
 
                             if (count >= 10) {
-                                echo "❌ Flake8 encontró ${count} hallazgos. Marcando etapa como FAILURE."
+                                echo " Flake8 encontró ${count} hallazgos. Marcando etapa como FAILURE."
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                     error("Flake8: demasiados hallazgos")
                                 }
                             } else if (count >= 8) {
-                                echo "⚠️ Flake8 encontró ${count} hallazgos. Marcando etapa como UNSTABLE."
+                                echo " Flake8 encontró ${count} hallazgos. Marcando etapa como UNSTABLE."
                                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                                     error("Flake8: hallazgos moderados")
                                 }
                             } else {
-                                echo "✅ Flake8 encontró ${count} hallazgos. Todo bien."
+                                echo " Flake8 encontró ${count} hallazgos. Todo bien."
                             }
                         }
                     }
@@ -99,17 +99,17 @@ pipeline {
                             }
 
                             if (findings >= 4) {
-                                echo "❌ Bandit encontró ${findings} hallazgos. Marcando etapa como FAILURE."
+                                echo " Bandit encontró ${findings} hallazgos. Marcando etapa como FAILURE."
                                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                                     error("Bandit: demasiados hallazgos")
                                 }
                             } else if (findings >= 2) {
-                                echo "⚠️ Bandit encontró ${findings} hallazgos. Marcando etapa como UNSTABLE."
+                                echo " Bandit encontró ${findings} hallazgos. Marcando etapa como UNSTABLE."
                                 catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
                                     error("Bandit: hallazgos moderados")
                                 }
                             } else {
-                                echo "✅ Bandit encontró ${findings} hallazgos. Todo bien."
+                                echo " Bandit encontró ${findings} hallazgos. Todo bien."
                             }
                         }
                     }
