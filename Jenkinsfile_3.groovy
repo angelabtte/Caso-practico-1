@@ -23,11 +23,11 @@ pipeline {
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
                             bat """
                                 set PYTHONPATH=%WORKSPACE%
-                                dir test\unit
-                                C:\Python\python.exe -m coverage run --branch --source=app -m pytest test\unit
-                                C:\Python\python.exe -m coverage xml
-                                C:\Python\python.exe -m coverage json -o coverage.json
-                                C:\Python\python.exe -m coverage report --fail-under=0 --skip-covered > coverage.txt
+                                dir test\\unit
+                                C:\\Python\\python.exe -m coverage run --branch --source=app -m pytest test\\unit
+                                C:\\Python\\python.exe -m coverage xml
+                                C:\\Python\\python.exe -m coverage json -o coverage.json
+                                C:\\Python\\python.exe -m coverage report --fail-under=0 --skip-covered > coverage.txt
                                 type coverage.xml | more
                             """
                         }
@@ -42,14 +42,14 @@ pipeline {
                         bat 'whoami && hostname && echo %WORKSPACE%'
                         catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
                             bat """
-                                set FLASK_APP=app\api.py
-                                start /B cmd /c "C:\Python\python.exe -m flask run --port=5000"
+                                set FLASK_APP=app\\api.py
+                                start /B cmd /c "C:\\Python\\python.exe -m flask run --port=5000"
                                 ping -n 10 127.0.0.1 >nul
-                                cd /d "C:\Users\USER\Desktop\Unir - Angela\helloworld-master-Proyecto1\test"
+                                cd /d "C:\\Users\\USER\\Desktop\\Unir - Angela\\helloworld-master-Proyecto1\\test"
                                 start /B cmd /c "java -jar wiremock-standalone-3.13.0.jar --port 9090"
                                 ping -n 10 127.0.0.1 >nul
                                 cd /d "%WORKSPACE%"
-                                C:\Python\python.exe -m pytest --junitxml=rest-report.xml test\rest
+                                C:\\Python\\python.exe -m pytest --junitxml=rest-report.xml test\\rest
                             """
                         }
                         junit 'rest-report.xml'
@@ -64,7 +64,7 @@ pipeline {
                         script {
                             def count = 0
                             catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                                def output = bat(script: 'C:\Python\python.exe -m flake8 . --count || exit /b 0', returnStdout: true).trim()
+                                def output = bat(script: 'C:\\Python\\python.exe -m flake8 . --count || exit /b 0', returnStdout: true).trim()
                                 count = output.isInteger() ? output.toInteger() : 0
                             }
 
@@ -93,7 +93,7 @@ pipeline {
                         script {
                             def findings = 0
                             catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-                                bat 'C:\Python\python.exe -m bandit -r . -f json -o bandit.json || exit /b 0'
+                                bat 'C:\\Python\\python.exe -m bandit -r . -f json -o bandit.json || exit /b 0'
                                 def banditReport = readJSON file: 'bandit.json'
                                 findings = banditReport.results.size()
                             }
@@ -123,9 +123,9 @@ pipeline {
                         catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
                             bat """
                                 cd /d "%WORKSPACE%"
-                                "C:\apache-jmeter-5.6.3\bin\jmeter.bat" -n -t "C:\Users\USER\Desktop\Unir - Angela\helloworld-master-Proyecto1\test\performance\test-plan.jmx" -l results\performance.jtl
+                                "C:\\apache-jmeter-5.6.3\\bin\\jmeter.bat" -n -t "C:\\Users\\USER\\Desktop\\Unir - Angela\\helloworld-master-Proyecto1\\test\\performance\\test-plan.jmx" -l results\\performance.jtl
                             """
-                            archiveArtifacts artifacts: 'results\performance.jtl', allowEmptyArchive: true
+                            archiveArtifacts artifacts: 'results\\performance.jtl', allowEmptyArchive: true
                         }
                     }
                 }
